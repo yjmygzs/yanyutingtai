@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.yanyutingtai.dao.SongMapper">
+    <resultMap id="BaseSongMap" type="Song">
+        <id column="id" property="id"/>
+        <result column="singer_id" property="singer_id"/>
+        <result column="name" property="name"/>
+        <result column="introduction" property="introduction" />
+        <result column="pic" property="pic" />
+        <result column="lyric" property="lyric" />
+        <result column="url" property="url" />
+    </resultMap>
+    <select id="getSongBySingerId" resultMap="BaseSongMap">
+        select * from music.song where singer_id = #{SingerId} limit #{startIndex},#{pageSize}
+    </select>
+    <select id="getSongBySongListId" resultMap="BaseSongMap">
+        select * from music.song as s inner join music.list_song as ls on s.id= ls.song_id inner join
+            music.song_list as sl on ls.song_list_id = sl.id where sl.id = #{SongListId}
+            limit #{startIndex},#{pageSize}
+    </select>
+    <select id="countSong" resultType="int">
+        select count(*) from music.song where singer_id = #{SingerId}
+    </select>
+    <select id="countSongTotal" resultType="int">
+        select count(*) from music.song
+    </select>
+    <delete id="deleteSongById" parameterType="int">
+        delete from music.song where id = #{id}
+    </delete>
+    <insert id="addSong" parameterType="Song">
+        insert into music.song(singer_id,name,introduction,lyric,url,pic) values(#{singer_id},#{name},
+        #{introduction},#{lyric},#{url},#{pic})
+    </insert>
+    <select id="getSongById" resultType="Song">
+        select * from music.song where id = #{SongId}
+    </select>
+    <select id="getSongBySingerId2" resultMap="BaseSongMap">
+        select * from music.song where singer_id = #{singer_id}
+    </select>
+    <select id="allSong1" resultMap="BaseSongMap">
+        select * from music.song where name LIKE '%${searchValue}%'
+                                         OR introduction LIKE '%${searchValue}%'
+    </select>
+</mapper>

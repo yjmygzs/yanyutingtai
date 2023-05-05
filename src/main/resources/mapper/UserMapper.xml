@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.yanyutingtai.dao.UserMapper">
+    <resultMap id="BaseUserMap" type="User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="sex" property="sex" />
+        <result column="email" property="email" />
+        <result column="introduction" property="introduction" />
+        <result column="create_time" property="create_time" />
+    </resultMap>
+
+    <select id="allUser" resultMap="BaseUserMap">
+        select * from music.user where username LIKE '%${searchValue}%'
+                                 OR sex LIKE '%${searchValue}%'
+                                 OR email LIKE '%${searchValue}%'
+                                 OR introduction LIKE '%${searchValue}%'
+                                 limit #{startIndex},#{pageSize}
+    </select>
+    <select id="countUser" resultType="int">
+        select count(*) from music.user
+    </select>
+    <delete id="deleteById" parameterType="int">
+        delete from music.user where id=#{id}
+    </delete>
+    <select id="countUserGender" resultType="GenderCount">
+        SELECT sex, COUNT(*) as count FROM music.user GROUP BY sex
+    </select>
+    <select id="userLogin" resultType="User">
+        select * from music.user where username = #{username}
+    </select>
+    <select id="userInfo" resultType="User">
+        select * from music.user where id = #{id}
+    </select>
+    <update id="updateUser" parameterType="User">
+        update music.user set username=#{username},sex=#{sex},introduction=#{introduction},email=#{email}
+        where id=#{id}
+    </update>
+    <update id="updateUserPassword" parameterType="User">
+        update music.user set password=#{password} where id=#{id} and password=#{oldPassword}
+    </update>
+    <insert id="addUser" parameterType="User">
+        insert into music.user(username,password,sex,email,introduction) values(#{username},
+        #{password},#{sex},#{email},#{introduction})
+    </insert>
+</mapper>

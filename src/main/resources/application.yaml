@@ -1,0 +1,32 @@
+#数据库连接
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: wcf132590
+    url: jdbc:mysql://localhost:3306/music?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    hikari:
+      minimum-idle: 10 #最小空闲连接数量
+      maximum-pool-size: 10 #连接池最大连接数，默认
+      idle-timeout: 120000 #空闲连接存活最大时间
+      connection-timeout: 30000 #数据库连接超时时间
+      connection-test-query: Select 1
+  cos:
+    baseUrl: https://yan-1307871379.cos.ap-chengdu.myqcloud.com
+    secretId: AKIDFeqocFdngMo1zj086rS3Y1IOIyUpxrX2
+    secretKey: MTMhrojXAbnqkTyFJ6kEh182jFYdVDtQ
+    regionName: ap-chengdu
+    bucketName: yan-1307871379
+    folderPrefix: /files
+  servlet:
+    multipart:
+      max-file-size: 50MB
+mybatis:
+  type-aliases-package: com.example.yanyutingtai.domain
+  mapper-locations: classpath:mapper/*Mapper.xml
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true

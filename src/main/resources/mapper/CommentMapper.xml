@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.yanyutingtai.dao.CommentMapper">
+    <resultMap id="BaseCommentMap" type="Comment">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="song_id" property="songId"/>
+        <result column="song_list_id" property="songListId"/>
+        <result column="content" property="content" />
+        <result column="type" property="nowType"/>
+    </resultMap>
+    <select id="getCommentBySongListId" resultMap="BaseCommentMap">
+        select * from music.comment where song_list_id = #{songListId}
+    </select>
+    <select id="getCommentBySongId" resultMap="BaseCommentMap">
+        select * from music.comment where song_id = #{songId}
+    </select>
+    <insert id="addComment" parameterType="Comment">
+        insert into music.comment(user_id,content,song_id,song_list_id,type) values(
+        #{userId},#{content},#{songId},#{songListId},#{nowType})
+    </insert>
+    <delete id="deleteComment" parameterType="int">
+        delete from music.comment where id = #{id}
+    </delete>
+    <select id="getCommentBySongListId2" resultMap="BaseCommentMap">
+        select * from music.comment where song_list_id = #{songListId}
+        limit #{startIndex},#{pageSize}
+    </select>
+    <select id="countCommentById" resultType="int">
+        select count(*) from music.comment where song_list_id = #{id}
+    </select>
+    <select id="getCommentBySongId2" resultMap="BaseCommentMap">
+        select * from music.comment where song_id = #{songId}
+        limit #{startIndex},#{pageSize}
+    </select>
+    <select id="countCommentById2" resultType="int">
+        select count(*) from music.comment where song_list_id = #{id}
+    </select>
+</mapper>

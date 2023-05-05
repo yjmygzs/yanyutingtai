@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.yanyutingtai.dao.SonglistMapper">
+    <resultMap id="BaseSongListMap" type="SongList">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="pic" property="pic"/>
+        <result column="introduction" property="introduction" />
+        <result column="style" property="style" />
+    </resultMap>
+
+    <select id="allSongList" resultMap="BaseSongListMap">
+        select * from music.song_list where title LIKE '%${searchValue}%'
+                                    OR introduction LIKE '%${searchValue}%'
+                                    OR style LIKE '%${searchValue}%'
+        limit #{startIndex},#{pageSize}
+    </select>
+    <select id="countSongList" resultType="int">
+        select count(*) from music.song_list
+    </select>
+    <delete id="deleteById" parameterType="int">
+        delete from music.song_list where id=#{id}
+    </delete>
+    <insert id="addSongList" parameterType="SongList">
+        insert into music.song_list(title,introduction,style,pic) values(#{title},
+        #{introduction},#{style},#{pic})
+    </insert>
+    <select id="getSongListById" resultType="SongList">
+        select * from music.song_list where id=#{id}
+    </select>
+    <update id="updateSongList" parameterType="SongList">
+        update music.song_list set title=#{title},introduction=#{introduction},style=#{style}
+        where id=#{id}
+    </update>
+    <select id="allSongList2" resultMap="BaseSongListMap">
+        select * from music.song_list
+    </select>
+    <select id="allSongList3" resultMap="BaseSongListMap">
+        select * from music.song_list where title LIKE '%${searchValue}%'
+                                         OR introduction LIKE '%${searchValue}%'
+                                         OR style LIKE '%${searchValue}%'
+    </select>
+</mapper>

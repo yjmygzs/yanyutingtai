@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.yanyutingtai.dao.CollectMapper">
+    <resultMap id="BaseCollectMap" type="Collect">
+        <id column="id" property="id"/>
+        <result column="user_id" property="user_id"/>
+        <result column="type" property="type"/>
+        <result column="song_id" property="song_id"/>
+        <result column="song_list_id" property="song_list_id"/>
+    </resultMap>
+    <select id="getCollectById" resultType="Collect">
+        select * from music.collect where user_id = #{user_id}
+    </select>
+    <insert id="addCollect" parameterType="Collect">
+        insert into music.collect(user_id,type,song_id) values(#{user_id},#{type},#{song_id})
+    </insert>
+    <delete id="deleteCollect" parameterType="int">
+        delete from music.collect where user_id=#{user_id} and song_id=#{song_id}
+    </delete>
+    <select id="isCollect" resultType="java.lang.Boolean">
+        select IF(count(*)>0,true,false) from music.collect where
+        user_id=#{user_id} and type=#{type} and song_id=#{song_id}
+    </select>
+</mapper>

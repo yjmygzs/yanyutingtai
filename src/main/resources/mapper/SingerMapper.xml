@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.yanyutingtai.dao.SingerMapper">
+    <resultMap id="BaseSingerMap" type="Singer">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sex" property="sex"/>
+        <result column="pic" property="pic" />
+        <result column="birth" property="birth" />
+        <result column="location" property="location" />
+        <result column="introduction" property="introduction" />
+    </resultMap>
+
+    <select id="allSinger" resultMap="BaseSingerMap">
+        select * from music.singer where name LIKE '%${searchValue}%'
+                                   limit #{startIndex},#{pageSize}
+    </select>
+    <select id="countSinger" resultType="int">
+        select count(*) from music.singer
+    </select>
+    <delete id="deleteById" parameterType="int">
+        delete from music.singer where id=#{id}
+    </delete>
+    <insert id="addSinger" parameterType="Singer">
+        insert into music.singer(name,sex,location,introduction,birth,pic) values(#{name},#{sex},
+        #{location},#{introduction},#{birth},#{pic})
+    </insert>
+    <select id="getSingerById" resultType="Singer">
+        select * from music.singer where id = #{id}
+    </select>
+    <update id="updateSinger" parameterType="Singer">
+        update music.singer set name=#{name},sex=#{sex},location=#{location},introduction=#{introduction},
+        birth=#{birth} where id=#{id}
+    </update>
+    <select id="countSingerGender" resultType="GenderCount">
+        SELECT sex, COUNT(*) as count FROM music.singer GROUP BY sex
+    </select>
+    <select id="allSinger2" resultMap="BaseSingerMap">
+        select * from music.singer
+    </select>
+    <select id="getSingerByGender" resultMap="BaseSingerMap">
+        select * from music.singer where sex = #{gender}
+    </select>
+</mapper>
